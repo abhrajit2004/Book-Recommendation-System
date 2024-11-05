@@ -14,12 +14,12 @@ const Navbar = () => {
 
 
     return (
-        <div className="navbar bg-base-100">
+        <div className="navbar bg-base-100 flex flex-col md:flex-row">
             <div className="flex-1">
-                <Link href={"/"} className="btn btn-ghost text-xl">daisyUI</Link>
+                <Link href={"/"} className="btn btn-ghost text-xl">RecomBook</Link>
             </div>
             <div className="flex-none">
-                <ul className="menu menu-horizontal px-1 flex justify-center items-center gap-4">
+                <ul className="menu menu-horizontal px-1 flex justify-center items-center gap-[10px] md:gap-4">
                     <li><Link href={"/"}>Home</Link></li>
                     <li><Link href={"/dashboard"}>Dashboard</Link></li>
                     {session && <li><Link href={"/favorites"}>Favorites</Link></li>}

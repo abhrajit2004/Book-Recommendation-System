@@ -13,6 +13,10 @@ const Profile = () => {
 
     const {data: session} = useSession();
 
+    useEffect(() => {
+      document.title = `${session ? session.user.name : 'Profile'} - RecomBook`;
+    }, [])
+
 
     useEffect(() => {
         if(!session){
@@ -29,7 +33,7 @@ const Profile = () => {
         <div className="hero bg-base-200 min-h-screen">
         <div className="hero-content w-full flex flex-col gap-10">
             <h1 className="text-center text-4xl font-bold">Your Profile</h1>
-          <div className="card bg-base-100 w-[50%] shadow-2xl">
+          <div className="card bg-base-100 w-[100%] md:w-[50%] shadow-2xl">
             <form className="card-body">
               <div className="form-control">
                 <label className="label">

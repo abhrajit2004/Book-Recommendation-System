@@ -3,7 +3,8 @@ import React, { useEffect, useState, useRef } from 'react'
 import { getAllSearchedBooks } from '@/actions/useractions';
 import { fetchBooks } from '@/actions/useractions';
 import Loader from '../components/Loader';
-import { getBookImages } from '@/actions/useractions';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Dashboard = () => {
 
@@ -17,15 +18,31 @@ const Dashboard = () => {
 
   const [language, setLanguage] = useState('Select Language');
 
+  useEffect(() => {
+    document.title = "Dashboard - RecomBook";
+  }, [])
+
 
   const searchBooks = async () => {
 
     const books = await getAllSearchedBooks(bookname, selected, language);
 
     if (books) {
-      const booksArray = JSON.parse(books);
-      setSearchedBooks(booksArray);
-      console.log(booksArray);
+      if (books.includes('`')) {
+        const newBooks = books.split('`')[3].split('n')[1];
+        const newbooksArray = JSON.parse(newBooks);
+        setSearchedBooks(newbooksArray);
+      }
+
+      else {
+        const booksArray = JSON.parse(books);
+        setSearchedBooks(booksArray);
+      }
+
+      toast.success('Books Found!');
+    }
+    else{
+      toast.error('No Books Found!');
     }
   }
 
@@ -35,18 +52,30 @@ const Dashboard = () => {
       if (books) {
         const booksArray = JSON.parse(books);
         setDefaultBooks(booksArray);
-        console.log(booksArray);
+
       }
     }
-    
+
     fetchDefaultBooks();
 
   }, [])
 
   return (
     <>
-      <div className='flex justify-center items-center mt-10 gap-2'>
-        <label className="input input-bordered flex items-center gap-2 w-[30%]">
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      <div className='flex flex-col md:flex-row justify-center items-center mt-10 gap-2'>
+        <label className="input input-bordered flex items-center gap-2 w-[75%] md:w-[30%]">
           <input onChange={(e) => setBookname(e.target.value)} type="text" className="grow" placeholder="Search Books" name='bookname' id='bookname' value={bookname} />
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -64,8 +93,10 @@ const Dashboard = () => {
           <option>Comedy</option>
           <option>Romance</option>
           <option>Action</option>
+          <option>Biography</option>
           <option>Horror</option>
           <option>War</option>
+          <option>Adventure</option>
           <option>Fantasy</option>
           <option>Tragedy</option>
           <option>Crime Thriller</option>
@@ -80,7 +111,7 @@ const Dashboard = () => {
 
       </div>
 
-      <div className="results my-8">
+      <div className="results my-5">
         <h1 className={`text-center text-3xl font-semibold ${searchedBooks.length === 0 && "hidden"}`}>Results Found: {searchedBooks.length} </h1>
       </div>
 
@@ -89,36 +120,6 @@ const Dashboard = () => {
         {searchedBooks.length === 0 && defaultBooks.map((book, index) => {
           return (
             <div className="card bg-base-100 w-96 shadow-xl" key={index}>
-              <figure>
-                <img
-                  src={'https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp'} 
-                  alt="Shoes" />
-              </figure>
-              <div className="card-body">
-                <h1 className="text-gray-500 text-sm"> 
-                  {book.author}
-                </h1>
-                <h2 className="card-title">
-                  {book.title}
-                  {/* <div className="badge badge-secondary">NEW</div> */}
-                </h2>
-                <p>{book.description}</p>
-                <div className="card-actions justify-end">
-                  <div className="badge badge-outline">{book.genre}</div>
-                  {/* <div className="badge badge-outline">Products</div> */}
-                </div>
-              </div>
-            </div>
-          )
-        })}
-        {searchedBooks.map((book, index) => {
-          return (
-            <div className="card bg-base-100 w-96 shadow-xl" key={index}>
-              <figure>
-                <img
-                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                  alt="Shoes" />
-              </figure>
               <div className="card-body">
                 <h1 className="text-gray-500 text-sm">
                   {book.author}
@@ -132,6 +133,29 @@ const Dashboard = () => {
                   <div className="badge badge-outline">{book.genre}</div>
                   {/* <div className="badge badge-outline">Products</div> */}
                 </div>
+                <button onClick={() => window.open(book.booklink)} className="btn btn-primary w-32">Read Here</button>
+              </div>
+            </div>
+          )
+        })}
+
+        {searchedBooks.map((book, index) => {
+          return (
+            <div className="card bg-base-100 w-96 shadow-xl" key={index}>
+              <div className="card-body">
+                <h1 className="text-gray-500 text-sm">
+                  {book.author}
+                </h1>
+                <h2 className="card-title">
+                  {book.title}
+                  {/* <div className="badge badge-secondary">NEW</div> */}
+                </h2>
+                <p>{book.description}</p>
+                <div className="card-actions justify-end">
+                  <div className="badge badge-outline">{book.genre}</div>
+                  {/* <div className="badge badge-outline">Products</div> */}
+                </div>
+                <button onClick={() => window.open(book.booklink)} className="btn btn-primary w-32">Read Here</button>
               </div>
             </div>
           )

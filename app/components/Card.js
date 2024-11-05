@@ -11,28 +11,19 @@ const Card = () => {
 
     const [bookData, setBookData] = useState([]);
 
-    const [bookCover, setBookCover] = useState('');
-
-    const getBookCover = async ( title, author ) => {
-        const bookCover = await getBookImages(title, author);
-        if(bookCover){
-            setBookCover(bookCover);
+    const fetchBookData = async () => {
+        const books = await fetchBooks();
+        if(books){
+            const booksArray = JSON.parse(books);
+            setBookData(booksArray);
         }
     }
 
-    useEffect(() => {
 
-        const fetchBookData = async () => {
-            const books = await fetchBooks();
-            if(books){
-                const booksArray = JSON.parse(books);
-                setBookData(booksArray);
-            }
-        }
+    useEffect(() => {
 
         fetchBookData();
 
-        getBookCover('The Alchemist', 'Paulo Coelho');
 
     }, []);
 
@@ -50,11 +41,6 @@ const Card = () => {
                             router.push(`/bookdetails/${decodeURIComponent(book.title).replaceAll(' ','-')}`);
                             localStorage.setItem('book', JSON.stringify(book));
                             }} className="card bg-base-100 w-96 shadow-xl transition cursor-pointer inline-block mx-2" key={index}>
-                            <figure>
-                                <img
-                                    src={bookCover ? bookCover : 'https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp'} 
-                                    alt="Shoes" />
-                            </figure>
                             <div className="card-body">
 
                                 <h2 className="card-title">
@@ -65,6 +51,7 @@ const Card = () => {
                                 <div className="card-actions justify-end">
                                     <div className="badge badge-outline">{book.genre}</div>
                                 </div>
+                                <button className="btn btn-primary w-32">View Details</button>
                             </div>
 
                         </div>

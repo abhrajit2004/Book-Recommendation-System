@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { useRouter } from 'next/navigation';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const bookname = () => {
 
@@ -19,6 +21,10 @@ const bookname = () => {
     }
   }, [])
 
+  useEffect(() => {
+    document.title = `${params.bookname.replaceAll('-', ' ')} - RecomBook`;
+  }, [])
+
   const addToFavorites = () => {
 
     const favorites = JSON.parse(localStorage.getItem('favorites'));
@@ -29,7 +35,7 @@ const bookname = () => {
       for (let index = 0; index < favorites.length; index++) {
         const element = favorites[index];
         if (element.title === currentBook.title) {
-          console.log('Already in favorites');
+          toast.warning('Book Already Added To Favorites!');
           return;
         }
       }
@@ -41,9 +47,20 @@ const bookname = () => {
 
   return (
     <section className="text-gray-400 bg-[#1d232a] body-font overflow-hidden">
+       <ToastContainer
+            position="top-right"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+        />
       <div className="container px-5 py-24 mx-auto">
         <div className="lg:w-4/5 mx-auto flex flex-wrap">
-          <img alt="ecommerce" className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="https://dummyimage.com/400x400" />
           <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
             <h2 className="text-sm title-font text-gray-500 tracking-widest">{currentBook.author}</h2>
             <h1 className="text-white text-3xl title-font font-medium mb-1">{params.bookname.replaceAll('-', ' ')}</h1>
@@ -88,7 +105,7 @@ const bookname = () => {
             <hr className='border-gray-700 my-3' />
             <div className="flex justify-center items-center gap-4">
               <span className="title-font font-medium text-2xl text-white">₹158</span>
-              <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded ">Read Here</button>
+              <button onClick={()=>window.open(currentBook.booklink)} className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded ">Read Here</button>
               <button onClick={addToFavorites} className="rounded-full w-10 h-10 bg-gray-800 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                 <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
                   <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>

@@ -5,6 +5,10 @@ const Favorites = () => {
 
     const [favoritesArray, setFavoritesArray] = useState([]);
 
+    useEffect(() => {
+        document.title = "Favorites - RecomBook";
+    }, [])
+
 
     useEffect(() => {
         const favorites = JSON.parse(localStorage.getItem('favorites'));
@@ -19,28 +23,25 @@ const Favorites = () => {
     }
 
     return (
-        <div className='flex justify-center gap-4 flex-wrap my-10'>
-            {favoritesArray && favoritesArray.map((book, index) => {
-                return (
-                    <div className="card bg-base-100 w-96 shadow-xl" key={index}>
-                        <figure>
-                            <img
-                                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                                alt="Shoes" />
-                        </figure>
-                        <div className="card-body">
-                            <h2 className="card-title">{book.title}</h2>
-                            <p>{book.description}</p>
-                            <div className="card-actions justify-end">
-                                <button onClick={()=>deleteFromFavorites(book.id)} className="btn btn-primary">Delete From Favorites</button>
+        <> 
+            <div className='flex justify-center gap-4 flex-wrap my-10'>
+                {favoritesArray && favoritesArray.map((book, index) => {
+                    return (
+                        <div className="card bg-base-100 w-96 shadow-xl" key={index}>
+                            <div className="card-body">
+                                <h2 className="card-title">{book.title}</h2>
+                                <p>{book.description}</p>
+                                <div className="card-actions justify-end">
+                                    <button onClick={() => deleteFromFavorites(book.id)} className="btn btn-primary">Delete From Favorites</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                )
-            })
-            }
+                    )
+                })
+                }
 
-        </div>
+            </div>
+        </>
     )
 }
 
