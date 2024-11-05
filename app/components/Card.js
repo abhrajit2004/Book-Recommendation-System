@@ -3,6 +3,7 @@ import { fetchBooks } from '@/actions/useractions';
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import Loader from './Loader';
+import { getBookImages } from '@/actions/useractions';
 
 const Card = () => {
 
@@ -10,6 +11,14 @@ const Card = () => {
 
     const [bookData, setBookData] = useState([]);
 
+    const [bookCover, setBookCover] = useState('');
+
+    const getBookCover = async ( title, author ) => {
+        const bookCover = await getBookImages(title, author);
+        if(bookCover){
+            setBookCover(bookCover);
+        }
+    }
 
     useEffect(() => {
 
@@ -22,15 +31,17 @@ const Card = () => {
         }
 
         fetchBookData();
-    
+
+        getBookCover('The Alchemist', 'Paulo Coelho');
+
     }, []);
 
 
     return (
 
-        <>
-        {bookData.length === 0 && <Loader /> }
-
+        <div className='min-h-[90vh] flex justify-center flex-col'>
+            <h1 className="mb-5 text-5xl font-bold text-center">Popular Books</h1>
+              {bookData.length === 0 && <Loader /> }
         <marquee className="flex">
             <div className='my-4'>
                 {bookData.map((book, index) => {
@@ -41,7 +52,7 @@ const Card = () => {
                             }} className="card bg-base-100 w-96 shadow-xl transition cursor-pointer inline-block mx-2" key={index}>
                             <figure>
                                 <img
-                                    src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                                    src={bookCover ? bookCover : 'https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp'} 
                                     alt="Shoes" />
                             </figure>
                             <div className="card-body">
@@ -64,7 +75,7 @@ const Card = () => {
             </div>
         </marquee>
 
-        </>
+        </div>
     )
 }
 
