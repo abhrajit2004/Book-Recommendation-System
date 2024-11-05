@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const bookname = () => {
+const Bookname = () => {
 
   const params = useParams();
 
@@ -131,4 +131,4 @@ const bookname = () => {
   )
 }
 
-export default bookname
+export default Bookname
