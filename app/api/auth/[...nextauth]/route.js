@@ -1,11 +1,7 @@
 import NextAuth from 'next-auth'
-import AppleProvider from 'next-auth/providers/apple'
-import FacebookProvider from 'next-auth/providers/facebook'
-import GoogleProvider from 'next-auth/providers/google'
-import EmailProvider from 'next-auth/providers/email'
 import GitHubProvider from "next-auth/providers/github";
 
-export const authoptions = NextAuth({
+export const authoptions = {
   providers: [
     // OAuth authentication providers...
     GitHubProvider({
@@ -26,6 +22,8 @@ export const authoptions = NextAuth({
     //     from: 'NextAuth.js <no-reply@example.com>'
     //   }),
   ],
-})
+  secret: process.env.NEXTAUTH_SECRET,
+}
 
-export { authoptions as GET, authoptions as POST } 
+// Wrapping `authOptions` with NextAuth to handle requests
+export default (req, res) => NextAuth(req, res, authoptions);
