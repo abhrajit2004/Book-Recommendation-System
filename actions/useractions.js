@@ -30,7 +30,7 @@ export const fetchBooks = async () => {
         "image" : ""; ( keep it blank for all )
         "description" : "";
         "id" : ""; ( should be like uuid )
-        "booklink" : "";
+        "booklink" : ""; ( should be the link from goodreads )
      },
      ]
 
