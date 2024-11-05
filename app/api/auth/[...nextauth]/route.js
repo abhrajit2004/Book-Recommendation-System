@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth'
 import GitHubProvider from "next-auth/providers/github";
 
-export const authoptions = {
+export const authoptions = NextAuth({
   providers: [
     // OAuth authentication providers...
     GitHubProvider({
@@ -23,7 +23,7 @@ export const authoptions = {
     //   }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
-}
+})
 
 // Wrapping `authOptions` with NextAuth to handle requests
-export default (req, res) => NextAuth(req, res, authoptions);
+export { authoptions as GET, authoptions as POST } 
