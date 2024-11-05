@@ -2,6 +2,16 @@
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
+import cors from 'cors';
+
+cors(
+    {
+        origin: '*',
+        methods: ['GET', 'POST'],
+        allowedHeaders: ['Content-Type'],
+    }
+)
+
 export const getBookImages = async (bookname, bookauthor) => {
     const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=intitle:${bookname}+inauthor:${bookauthor}&key=${process.env.BOOKS_API}`);
 
