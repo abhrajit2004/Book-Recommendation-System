@@ -19,7 +19,7 @@ export const fetchBooks = async () => {
     const genAI = new GoogleGenerativeAI(process.env.API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    const prompt = `Generate a JSON data for a big like 20 list of popular books and please include only JSON data and do it in this format output only nothing else -
+    const prompt = `Generate a JSON data for a big like 10 list of popular books and please include only JSON data and do it in this format output only -
 
      don't include any code like text like  "\`\`\`json" or anything else just the JSON data in this format
     [
@@ -32,9 +32,6 @@ export const fetchBooks = async () => {
         "id" : ""; ( should be like uuid )
         "booklink" : "";
      },
-     {
-      ....
-     }
      ]
 
     `;
