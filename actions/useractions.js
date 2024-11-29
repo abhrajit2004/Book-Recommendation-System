@@ -46,7 +46,7 @@ export const getAllSearchedBooks = async (bookname, genre, language) => {
 
     const prompt = `Generate an array of JSON data for ${bookname} books or ${genre} books in ${language} language ( if available ) and do it in this format output only nothing else -
     
-    don't include any code like text like  "\`\`\`json" or anything else
+    don't include any code like text like  "\`\`\`json" or anything on starting or ending, just the JSON data in this format
     [
      {
         "title" : "";
