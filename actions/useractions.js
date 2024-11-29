@@ -21,7 +21,7 @@ export const fetchBooks = async () => {
 
     const prompt = `Generate a JSON data for a big like 10 list of popular books and please include only JSON data and do it in this format output only -
 
-     don't include any code like text like  "\`\`\`json" or anything else just the JSON data in this format
+     don't include any code like text like  "\`\`\`json" or anything on starting or ending, just the JSON data in this format
     [
      {
         "title" : "";
@@ -32,11 +32,10 @@ export const fetchBooks = async () => {
         "id" : ""; ( should be like uuid )
         "booklink" : ""; ( should be the link from goodreads )
      },
-     ]
-
-    `;
+     ]`;
 
     const result = await model.generateContent(prompt);
+
     return result.response.text();
 };
 
